@@ -173,12 +173,12 @@ def gradient_color(color_list, color_sum=10):
 if __name__ == '__main__':
     # Drawing parameters
     color = ['#557B83','#39AEA9', '#A2D5AB', '#E5EFC1', 'green']
-    is_label=False
+    is_label=True
     plt.rcParams['font.serif'] = ['Times New Roman']
 
     font1 = {'family': 'Times New Roman',
              'weight': 'normal',
-             'size': 18, }
+             'size': 20, }
 
     font2 = {'family': 'Times New Roman',
              'weight': 'normal',
@@ -186,7 +186,7 @@ if __name__ == '__main__':
 
     font3 = {'family': 'Times New Roman',
              'weight': 'normal',
-             'size': 14, }
+             'size': 16, }
 
     # Topology parameters
     node_num = 20
@@ -236,7 +236,6 @@ if __name__ == '__main__':
     num=1
     iter_num=16
     control_input_list = []
-
     #The propagation of triggering signal (Until all nodes are triggered)
     while (True):
         control_input = []
@@ -279,7 +278,6 @@ if __name__ == '__main__':
         count+=1
         if (count>=iter_num):
             break
-
     sub_map = str.maketrans('0123456789', '₀₁₂₃₄₅₆₇₈₉')
     label1 = [r"$v_{%s}$" % str(i) for i in range(node_num)]
 
@@ -302,13 +300,14 @@ if __name__ == '__main__':
     cax.set_yticks(list(np.arange(0.5, len(memery_list), 1)))
     cax.set_yticklabels(range(len(memery_list) ))
     cax.yaxis.tick_left()
-    plt.text(1.5, 0.8, "Trigger Sequence",font3, rotation=90)
+    plt.text(1.5, 0.2, "Trigger Sequence",font3, rotation=90)
+    # plt.text(1.5, 0.8, "Trigger Sequence",font3, rotation=90)
 
     # Draw reconfiguration result
     plt.subplot2grid((1, 3), (0, 2))
     plt.title("The reconfigured graph",font1, y=-0.05)
-    pos = nx.kamada_kawai_layout(G)
-    nx.draw(G, pos=pos, with_labels=is_label, node_color=color[1], edge_color='lightgray')
+    pos_0 = nx.kamada_kawai_layout(G)
+    nx.draw(G, pos=pos_0, with_labels=is_label, node_color=color[1], edge_color='lightgray')
     plt.tight_layout()
 
     #Draw the trend of Node Indegree
@@ -324,7 +323,7 @@ if __name__ == '__main__':
     t = MultipleLocator(1)
     ax = plt.gca()
     ax.xaxis.set_major_locator(t)
-    plt.title("The Trend of Node Indegree in Network Simplification",font2)
+    plt.title("The Trend of Node Indegree",font1)
     plt.xlabel('Time Step',font2)
     plt.ylabel('Node Indegree',font2)
     plt.legend(loc='best',ncol=3)
@@ -333,15 +332,17 @@ if __name__ == '__main__':
     plt.subplot(122)
     z1=np.average(np.array(buff_list),axis=1)
     plt.xlim(xmax=count-1, xmin=0)
-    plt.plot(x, z1,label=r"$\bar{d}^{in}\left ( G \right ) $")
+    plt.plot(x, z1,label=r"$\bar{d}^{in} ( G ) $")
     plt.scatter(x, z1)
     t = MultipleLocator(1)
     ax = plt.gca()
     ax.xaxis.set_major_locator(t)
-    plt.title("The Trend of Average Indegree in Network Simplification",font2)
+    plt.title("The Trend of Average Indegree",font1)
     plt.xlabel('Time Step',font2)
     plt.ylabel('Average Indegree',font2)
     plt.legend(loc='best')
+    print("initial_avg_degree:{}".format(z1[0]))
+    print("final_avg_degree:{}".format(z1[count-1]))
 
     # Draw the detail of reconfiguration
     G=nx.DiGraph(graph)
@@ -360,7 +361,7 @@ if __name__ == '__main__':
     while (True):
         if(count<=6):
             plt.subplot(2,3,count)
-            plt.title("k=%s"%(count-1),font1,y=-0.05)
+            plt.title("k = %s"%(count-1),font1,y=-0.1)
             plt.tight_layout()
             nx.draw(G, pos=pos, with_labels=True, node_color=color[1], edge_color='lightgray')
             if(count==1):
@@ -390,8 +391,8 @@ if __name__ == '__main__':
     if(count<=6):
         plt.subplot(2, 3, 6)
         plt.title("k=5",font1,y=-0.05)
-        pos = nx.kamada_kawai_layout(G)
-        nx.draw(G, pos=pos, with_labels=True, node_color=color[1], edge_color='lightgray')
+        # pos = nx.kamada_kawai_layout(G)
+        nx.draw(G, pos=pos_0, with_labels=True, node_color=color[1], edge_color='lightgray')
         plt.tight_layout()
 
     # plt.figure(figsize=(9, 6))

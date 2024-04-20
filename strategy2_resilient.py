@@ -230,10 +230,10 @@ def get_degree(A_matrix):
 if __name__ == '__main__':
     # Drawing parameters
     color=['#95D1CC','#F56D91','yellow','orange','green']
-    is_label = False
+    is_label = True
     font1 = {'family': 'Times New Roman',
              'weight': 'normal',
-             'size': 18, }
+             'size': 20, }
     font2 = {'family': 'Times New Roman',
              'weight': 'normal',
              'size': 16, }
@@ -326,7 +326,7 @@ if __name__ == '__main__':
         plt.scatter(T * (10 * i + 11), y[10 * i + 12, attack_index[i]], color='red', marker='x', s=100, zorder=3)
     plt.legend(loc='best',ncol=4)
 
-    plt.title("The Consensus of MAS under Random Attacks",font2)
+    plt.title("The Consensus of MAS under Random Attacks",font1)
     plt.tight_layout()
 
     # plt.figure(figsize=(9, 6))

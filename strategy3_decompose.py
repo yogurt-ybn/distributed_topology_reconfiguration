@@ -215,16 +215,16 @@ if __name__ == '__main__':
     # Drawing parameters
     color=['#5584AC','#95D1CC','#FAFFAF']
     color_ = ['#251D3A', '#E8F9FD']
-    is_label = False
+    is_label = True
     font1 = {'family': 'Times New Roman',
              'weight': 'normal',
-             'size': 18, }
+             'size': 20, }
     font2 = {'family': 'Times New Roman',
              'weight': 'normal',
              'size': 16, }
     font3 = {'family': 'Times New Roman',
              'weight': 'normal',
-             'size': 14, }
+             'size': 16, }
 
     # Topology parameters
     node_num =30
@@ -328,12 +328,11 @@ if __name__ == '__main__':
     plt.tight_layout()
     G.add_edges_from([[group_list[0][0],group_list[1][0]],[group_list[0][0],group_list[2][0]],[group_list[1][0],group_list[2][0]]])
 
-    pos = nx.kamada_kawai_layout(G)
-    pos_=pos
+    pos_0 = nx.kamada_kawai_layout(G)
     G.remove_edges_from([[group_list[0][0],group_list[1][0]],[group_list[0][0],group_list[2][0]],[group_list[1][0],group_list[2][0]]])
-    nx.draw(G, pos=pos, with_labels=is_label, node_color=color[0], edge_color='lightgray')
+    nx.draw(G, pos=pos_0, with_labels=is_label, node_color=color[0], edge_color='lightgray')
     for i in range(group_num):
-        nx.draw_networkx_nodes(G, pos=pos, nodelist=group_list[i], node_color=color[i])
+        nx.draw_networkx_nodes(G, pos=pos_0, nodelist=group_list[i], node_color=color[i])
 
     G = nx.DiGraph(graph)
     A_matrix = nx.adj_matrix(G).toarray()
@@ -366,7 +365,7 @@ if __name__ == '__main__':
         ax.plot(x, y_[:, i])
         ax.scatter(x, y_[:, i],label=label1[i])
     plt.legend(loc='best',ncol=3)
-    plt.title("The Number of Control Input under System Decomposition",font2)
+    plt.title("The Trend of the Number of Control Input",font1)
     plt.tight_layout()
 
     plt.subplot(122)
@@ -376,7 +375,7 @@ if __name__ == '__main__':
     y = np.array(buff_list)
     plt.plot(x, y)
     plt.scatter(x, y)
-    plt.title("The Number of Boundaries under System Decomposition",font2)
+    plt.title("The Trend of the Number of Boundaries",font1)
     plt.tight_layout()
 
     plt.figure(figsize=(12, 9))
@@ -426,29 +425,12 @@ if __name__ == '__main__':
     G.add_edges_from([[group_list[0][0], group_list[1][0]], [group_list[0][0], group_list[2][0]],
                       [group_list[1][0], group_list[2][0]]])
 
-    pos = nx.kamada_kawai_layout(G)
+    # pos = nx.kamada_kawai_layout(G)
     G.remove_edges_from([[group_list[0][0], group_list[1][0]], [group_list[0][0], group_list[2][0]],
                          [group_list[1][0], group_list[2][0]]])
 
-    nx.draw(G, pos=pos, with_labels=True, node_color=color[1], edge_color='lightgray')
+    nx.draw(G, pos=pos_0, with_labels=True, node_color=color[1], edge_color='lightgray')
     for j in range(group_num):
-        nx.draw_networkx_nodes(G, pos=pos, nodelist=group_list[j], node_color=color[j])
-
-    plt.figure(figsize=(9, 6))
-    ax = plt.subplot(111)
-    plt.xlabel('Time Step', font2)
-    plt.ylabel('The Number of Control Input', font2)
-    plt.xlim(xmax=iter_num - 1, xmin=0)
-    x = [i for i in range(iter_num)]
-    y_ = np.array(control_input_list)
-
-    cm = plt.get_cmap('gist_rainbow')
-    ax.set_prop_cycle('color', [cm(1. * i / node_num) for i in range(node_num)])
-
-    for i in range(node_num):
-        ax.plot(x, y_[:, i])
-        ax.scatter(x, y_[:, i], label=label1[i])
-    plt.title("The Number of Control Input under System Decomposition", font2)
-    plt.tight_layout()
+        nx.draw_networkx_nodes(G, pos=pos_0, nodelist=group_list[j], node_color=color[j])
 
     plt.show()
